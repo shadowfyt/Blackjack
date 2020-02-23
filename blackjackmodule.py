@@ -20,20 +20,10 @@ class Deck():
         for s in suite:
             for r in ranks:
                 self.deck.append((r,s))
+                
+    def s_deck(self):
+        print(self.deck)
     
-
-'''    
-    temp way to create the deck
-    card_list = []
-
-    for s in suite:
-        for r in ranks:
-            card_list.append((r,s))
-            
-    card_list
-'''
-
-
 class Hand():
     num = 0
     
@@ -71,16 +61,6 @@ class Hand():
         
         self.sum.append(values[self.c_h[Hand.num - 1][0]])
         
-        
-'''
-        count = 0
-        while count < len(self.c_h):
-            for self.i in self.c_h:
-                self.show_cards.append(f'{self.c_h[count][0]} of {self.c_h[count][1]}')
-                count += 1
-'''
-
-
 class Player(Hand):
     '''
     create a player object that can,
@@ -116,9 +96,7 @@ class Player(Hand):
             print('BUST!')
         elif sum(self.sum) == 21:
             print('BLACKJACK')
-     
-      
-    
+        
 class Dealer(Hand):
     '''
     create Dealer object
@@ -145,7 +123,6 @@ class Dealer(Hand):
             print(self.name)
             Hand.show_hand(self)
       
-
 '''
 create a Game object that sets up the blackjack game
 num of players?
@@ -154,15 +131,9 @@ checks for winner?
 
 test_deck = Deck()
 
-
-
 def check_winner(a,b):
     if sum(a.sum) > sum(b.sum):
         print(f'{a.name}, IS THE WINNER')
     else:
         print(f'{b.name}, IS THE WINNER')
-        
 
-def hi():
-    print('hello world')
-    
