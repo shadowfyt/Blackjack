@@ -152,8 +152,6 @@ checks for winner?
 '''
 
 test_deck = Deck()
-test_player = Player('Ryan',100)
-test_dealer = Dealer()
 
 
 
@@ -163,5 +161,7 @@ def check_winner(a,b):
     else:
         print(f'{b.name}, IS THE WINNER')
         
-test_player.hit_pass()
-test_dealer.hit_pass()
+
+def hi():
+    print('hello world')
+    
