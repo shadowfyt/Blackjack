@@ -43,13 +43,13 @@ class Hand():
         grabs the first card on the deck and removes it from deck
         '''  
         #           hard coded in the deck.. not the best way
-    def grab_card(self,deck = test_deck.deck,n = 1):
+    def grab_card(self,deck=deck,n = 1):
         i = 0
         
         while i < n:
-            self.c_h.append(deck[0])
+            self.c_h.append(deck.deck[0])
             self.show_cards.append(f"{self.c_h[Hand.num][0]} of {self.c_h[Hand.num][1]}")
-            deck.pop(0)
+            deck.deck.pop(0)
             Hand.num += 1
             i  += 1
         
@@ -74,9 +74,7 @@ class Player(Hand):
         self.name = name
         self.money = money
         self.bet_amt = 0
-        print(self.name)
-        Hand.grab_card(self,n = 2)
-        Hand.show_hand(self)
+        Hand.grab_card(self,n = 2,deck =deck)
         
     def bet(self):
         self.bet_amt = int(input('bet amt?'))
@@ -85,17 +83,22 @@ class Player(Hand):
     def hit_pass(self):
         if input('hit or pass') =='hit':
             print(self.name)
-            Hand.grab_card(self)
+            Hand.grab_card(self,deck=deck)
             Hand.show_hand(self)
             self.check_bust()
         else:
             print('PASSED!!')
             
     def check_bust(self):
+        
         if sum(self.sum) > 21:
             print('BUST!')
         elif sum(self.sum) == 21:
             print('BLACKJACK')
+            
+    def intro(self):
+        print(self.name)
+        Hand.show_hand(self)
         
 class Dealer(Hand):
     '''
@@ -108,20 +111,27 @@ class Dealer(Hand):
     def __init__(self,name = 'Dealer'):
         super().__init__() 
         self.name = name
-        Hand.grab_card(self,n =2)
-        print(self.name)
-        print(f'{self.show_cards[0]}, HIDDEN')
+        Hand.grab_card(self,n =2,deck=deck)
+
         
     def hit_pass(self):
         while sum(self.sum) <= 14:
-            Hand.grab_card(self)
+            Hand.grab_card(self,deck=deck)
         if sum(self.sum) > 21:
+            print(self.name)
             print('BUST!')
+            Hand.show_hand(self)
         elif sum(self.sum) == 21:
+            print(self.name)
             print('BLACKJACK')
+            Hand.show_hand(self)
         else:
             print(self.name)
             Hand.show_hand(self)
+    
+    def intro(self):
+        print(self.name)
+        print(f'{self.show_cards[0]}, HIDDEN')
       
 '''
 create a Game object that sets up the blackjack game
@@ -129,7 +139,6 @@ num of players?
 checks for winner?
 '''
 
-test_deck = Deck()
 
 def check_winner(a,b):
     if sum(a.sum) > sum(b.sum):
@@ -137,3 +146,4 @@ def check_winner(a,b):
     else:
         print(f'{b.name}, IS THE WINNER')
 
+deck = Deck()
