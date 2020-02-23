@@ -81,14 +81,17 @@ class Player(Hand):
         print(f' you bet: ${self.bet_amt}')
     
     def hit_pass(self):
-        if input('hit or pass') =='hit':
-            print(self.name)
-            Hand.grab_card(self,deck=deck)
-            Hand.show_hand(self)
-            self.check_bust()
-        else:
-            print('PASSED!!')
-            
+        hit = True
+        while hit == True:
+            if input('hit or pass') =='hit':
+                print(self.name)
+                Hand.grab_card(self,deck=deck)
+                Hand.show_hand(self)
+                self.check_bust()
+            else:
+                print('PASSED!!')
+                hit = False
+                
     def check_bust(self):
         
         if sum(self.sum) > 21:
@@ -147,3 +150,19 @@ def check_winner(a,b):
         print(f'{b.name}, IS THE WINNER')
 
 deck = Deck()
+
+def game():
+    start_game = True
+    player = Player(input('name?'))
+    dealer = Dealer()
+    while start_game == True:
+        if input('(y)es to start game else (n)o')== 'y':
+            dealer.intro()
+            player.intro()
+            player.hit_pass()
+            dealer.hit_pass()
+        else:
+            start_game = False
+
+
+game()
