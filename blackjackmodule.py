@@ -166,3 +166,4 @@ def game():
 
 
 game()
+len(deck.deck)
