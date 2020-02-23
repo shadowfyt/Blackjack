@@ -51,7 +51,8 @@ class Hand():
             
         '''
         grabs the first card on the deck and removes it from deck
-        '''   
+        '''  
+        #           hard coded in the deck.. not the best way
     def grab_card(self,deck = test_deck.deck,n = 1):
         i = 0
         
