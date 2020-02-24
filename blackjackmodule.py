@@ -64,13 +64,6 @@ class Hand:
         self.total.append(values[self.c_h[self.num][0]])
 
 
-def remove_card():
-    deck.deck.pop(0)
-
-
-deck = Deck()
-
-
 class Player(Hand):
     '''
     create a player object that can,
@@ -79,16 +72,34 @@ class Player(Hand):
     works with the Hand object?
     '''
 
-    def __init__(self, name, money=0):
+    def __init__(self, name, money=500):
         super().__init__()
         self.name = name
         self.money = money
-        self.bet_amt = 500
-        # Hand.grab_card(self, n=2)
+        self.bet_amt = 0
+
+    def win_lose(self, a):
+
+        if a:
+            self.money += self.bet_amt
+            print(f'WINNER YOU WON{self.bet_amt}, Total: {self.money}')
+            self.bet_amt = 0
+        elif a == 'none':
+            print(f'Money: {self.money}')
+        else:
+            self.money -= self.bet_amt
+            print(f'YOU LOST {self.bet_amt}, Total: {self.money}')
+            self.bet_amt = 0
 
     def bet(self):
-        self.bet_amt = int(input('bet amt?'))
-        print(f' you bet: ${self.bet_amt}')
+        funds = True
+        while funds:
+            self.bet_amt = int(input('bet amt?'))
+            if self.bet_amt > self.money:
+                print(f'You have {self.money}, you Bet: {self.bet_amt}, not enough funds')
+            else:
+                print(f'You bet: {self.bet_amt}')
+                funds = False
 
     def hit_pass(self):
         hit = True
@@ -166,32 +177,47 @@ checks for winner?
 def check_winner(a, b):
     if sum(a.total) > 21:
         print(f'{b.name}, IS THE WINNER')
+        return False
     elif sum(b.total) > 21:
         print(f'{a.name}, IS THE WINNER')
+        return True
     elif sum(a.total) == sum(b.total):
         print('TIED GAME')
+        return 'none'
     elif sum(a.total) > sum(b.total):
         print(f'{a.name}, IS THE WINNER')
+        return True
     else:
         print(f'{b.name}, IS THE WINNER')
+        return False
+
+
+def remove_card():
+    deck.deck.pop(0)
 
 
 def game():
     start_game = True
     player = Player(input('name?'))
     dealer = Dealer()
+    test_var = ''
     while start_game:
         player.reset_hand()
         if input('(y)es to start game else (n)o') == 'y':
+            if player.money == 0:
+                print('you have no money!, Come back with more funds')
+                break
+            else:
+                player.bet()
             dealer.intro()
             player.intro()
             player.hit_pass()
             dealer.hit_pass()
-            check_winner(player, dealer)
+            test_var = check_winner(player, dealer)
+            player.win_lose(test_var)
         else:
             start_game = False
 
 
+deck = Deck()
 game()
-
-
