@@ -26,12 +26,12 @@ class Deck:
 
 
 class Hand:
-    num = 0
 
     def __init__(self):
+        self.num = 0
         self.c_h = []
         self.show_cards = []
-        self.sum = []
+        self.total = []
 
     '''
     display cards in hand
@@ -39,7 +39,7 @@ class Hand:
 
     def show_hand(self):
         print(self.show_cards)
-        print(sum(self.sum))
+        print(sum(self.total))
 
         '''
         grabs the first card on the deck and removes it from deck
@@ -48,20 +48,24 @@ class Hand:
 
     def grab_card(self, n=1):
         i = 0
-
+        n = n
         while i < n:
             self.c_h.append(deck.deck[0])
-            self.show_cards.append(f"{self.c_h[0][0]} of {self.c_h[0][1]}")
-            deck.deck.pop(0)
-            i += 1
-
+            self.show_cards.append(f"{self.c_h[self.num][0]} of {self.c_h[self.num][1]}")
             self.sum_hand()
+            remove_card()
+            i += 1
+            self.num += 1
         '''
             gets the value of cards and sums it
         '''
 
     def sum_hand(self):
-        self.sum.append(values[self.c_h[Hand.num - 1][0]])
+        self.total.append(values[self.c_h[self.num][0]])
+
+
+def remove_card():
+    deck.deck.pop(0)
 
 
 class Player(Hand):
@@ -77,7 +81,7 @@ class Player(Hand):
         self.name = name
         self.money = money
         self.bet_amt = 0
-        Hand.grab_card(self, n=2)
+        # Hand.grab_card(self, n=2)
 
     def bet(self):
         self.bet_amt = int(input('bet amt?'))
@@ -97,19 +101,20 @@ class Player(Hand):
 
     def check_bust(self):
 
-        if sum(self.sum) > 21:
+        if sum(self.total) > 21:
             print('BUST!')
-        elif sum(self.sum) == 21:
+        elif sum(self.total) == 21:
             print('BLACKJACK')
 
     def intro(self):
         print(self.name)
+        self.grab_card(2)
         Hand.show_hand(self)
 
     def reset_hand(self):
         self.c_h = []
         self.show_cards = []
-        self.sum = []
+        self.total = []
 
 
 class Dealer(Hand):
@@ -126,13 +131,13 @@ class Dealer(Hand):
         Hand.grab_card(self, n=2)
 
     def hit_pass(self):
-        while sum(sum) <= 14:
+        while sum(self.total) <= 14:
             Hand.grab_card(self)
-        if sum(self.sum) > 21:
+        if sum(self.total) > 21:
             print(self.name)
             print('BUST!')
             Hand.show_hand(self)
-        elif sum(self.sum) == 21:
+        elif sum(self.total) == 21:
             print(self.name)
             print('BLACKJACK')
             Hand.show_hand(self)
