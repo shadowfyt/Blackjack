@@ -6,7 +6,7 @@ values = {'Two': 2, 'Three': 3, 'Four': 4, 'Five': 5, 'Six': 6, 'Seven': 7,
           'Eight': 8, 'Nine': 9, 'Ten': 10, 'Jack': 10, 'Queen': 10, 'King': 10, 'Ace': 11}
 
 
-class Deck():
+class Deck:
     '''
     creates the 52 card deck object
     '''
@@ -28,8 +28,8 @@ class Deck():
 class Hand:
     num = 0
 
-    def __init__(self, c_h=[]):
-        self.c_h = c_h
+    def __init__(self):
+        self.c_h = []
         self.show_cards = []
         self.sum = []
 
@@ -51,9 +51,8 @@ class Hand:
 
         while i < n:
             self.c_h.append(deck.deck[0])
-            self.show_cards.append(f"{self.c_h[Hand.num][0]} of {self.c_h[Hand.num][1]}")
+            self.show_cards.append(f"{self.c_h[0][0]} of {self.c_h[0][1]}")
             deck.deck.pop(0)
-            Hand.num += 1
             i += 1
 
             self.sum_hand()
@@ -78,7 +77,7 @@ class Player(Hand):
         self.name = name
         self.money = money
         self.bet_amt = 0
-        Hand.grab_card(self, n=2,)
+        Hand.grab_card(self, n=2)
 
     def bet(self):
         self.bet_amt = int(input('bet amt?'))
@@ -107,6 +106,11 @@ class Player(Hand):
         print(self.name)
         Hand.show_hand(self)
 
+    def reset_hand(self):
+        self.c_h = []
+        self.show_cards = []
+        self.sum = []
+
 
 class Dealer(Hand):
     '''
@@ -122,7 +126,7 @@ class Dealer(Hand):
         Hand.grab_card(self, n=2)
 
     def hit_pass(self):
-        while sum(self.sum) <= 14:
+        while sum(sum) <= 14:
             Hand.grab_card(self)
         if sum(self.sum) > 21:
             print(self.name)
@@ -163,6 +167,7 @@ def game():
     player = Player(input('name?'))
     dealer = Dealer()
     while start_game:
+        player.reset_hand()
         if input('(y)es to start game else (n)o') == 'y':
             dealer.intro()
             player.intro()
