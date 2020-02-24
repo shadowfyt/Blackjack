@@ -68,6 +68,9 @@ def remove_card():
     deck.deck.pop(0)
 
 
+deck = Deck()
+
+
 class Player(Hand):
     '''
     create a player object that can,
@@ -80,7 +83,7 @@ class Player(Hand):
         super().__init__()
         self.name = name
         self.money = money
-        self.bet_amt = 0
+        self.bet_amt = 500
         # Hand.grab_card(self, n=2)
 
     def bet(self):
@@ -94,7 +97,9 @@ class Player(Hand):
                 print(self.name)
                 Hand.grab_card(self)
                 Hand.show_hand(self)
-                self.check_bust()
+                if self.check_bust():
+                    print('BUST')
+                    hit = False
             else:
                 print('PASSED!!')
                 hit = False
@@ -102,19 +107,20 @@ class Player(Hand):
     def check_bust(self):
 
         if sum(self.total) > 21:
-            print('BUST!')
+            return True
         elif sum(self.total) == 21:
             print('BLACKJACK')
 
     def intro(self):
         print(self.name)
-        self.grab_card(2)
+        Hand.grab_card(self, n=2)
         Hand.show_hand(self)
 
     def reset_hand(self):
         self.c_h = []
         self.show_cards = []
         self.total = []
+        self.num = 0
 
 
 class Dealer(Hand):
@@ -158,13 +164,16 @@ checks for winner?
 
 
 def check_winner(a, b):
-    if sum(a.sum) > sum(b.sum):
+    if sum(a.total) > 21:
+        print(f'{b.name}, IS THE WINNER')
+    elif sum(b.total) > 21:
+        print(f'{a.name}, IS THE WINNER')
+    elif sum(a.total) == sum(b.total):
+        print('TIED GAME')
+    elif sum(a.total) > sum(b.total):
         print(f'{a.name}, IS THE WINNER')
     else:
         print(f'{b.name}, IS THE WINNER')
-
-
-deck = Deck()
 
 
 def game():
@@ -178,8 +187,11 @@ def game():
             player.intro()
             player.hit_pass()
             dealer.hit_pass()
+            check_winner(player, dealer)
         else:
             start_game = False
 
 
 game()
+
+
