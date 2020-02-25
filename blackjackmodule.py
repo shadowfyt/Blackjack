@@ -94,12 +94,17 @@ class Player(Hand):
     def bet(self):
         funds = True
         while funds:
-            self.bet_amt = int(input('bet amt?'))
-            if self.bet_amt > self.money:
-                print(f'You have {self.money}, you Bet: {self.bet_amt}, not enough funds')
+            try:
+                self.bet_amt = int(input('bet amt?'))
+            except ValueError:
+                print(ValueError)
+                print('Please enter a number!')
             else:
-                print(f'You bet: {self.bet_amt}')
-                funds = False
+                if self.bet_amt > self.money:
+                    print(f'You have {self.money}, you Bet: {self.bet_amt}, not enough funds')
+                else:
+                    print(f'You bet: {self.bet_amt}')
+                    funds = False
 
     def hit_pass(self):
         hit = True
