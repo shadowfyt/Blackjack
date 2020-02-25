@@ -203,7 +203,7 @@ def game():
     test_var = ''
     while start_game:
         player.reset_hand()
-        if input('(y)es to start game else (n)o') == 'y':
+        if input('(y)es to start game else (n)o').lower == 'y':
             if player.money == 0:
                 print('you have no money!, Come back with more funds')
                 break
